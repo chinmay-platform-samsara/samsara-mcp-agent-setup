@@ -1,0 +1,6 @@
+# Samsara MCP setup (unofficial example)
+
+> Instructions an AI assistant can follow to connect a user to Samsara MCP, a read-only remote MCP server that uses OAuth sign-in.
+
+- [Agent setup instructions](https://chinmay-platform-samsara.github.io/samsara-mcp-agent-setup/setup.md): Step-by-step setup for Claude, Claude Code, ChatGPT, GitHub Copilot in VS Code, Copilot Studio, and Cursor.
+- [Official Samsara MCP docs](https://developers.samsara.com/docs/mcp): Human documentation, regional endpoints, and FAQ.

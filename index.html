@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Set up Samsara MCP with your AI assistant</title>
+<meta name="description" content="Instructions an AI assistant can follow to connect a user to Samsara MCP.">
+<link rel="alternate" type="text/markdown" href="setup.md" title="Agent instructions (markdown)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Special+Gothic+Expanded+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --signal: #FEAE0F;
+    --black: #1C1917;
+    --white: #FFFFFF;
+    --gray-100: #F5F4F1;
+    --gray-300: #E0DDD5;
+    --gray-500: #B9B6AD;
+    --gray-700: #716F67;
+    --gray-800: #403D37;
+  }
+  * { box-sizing: border-box; border-radius: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Instrument Sans", system-ui, sans-serif;
+    color: var(--black);
+    background: var(--white);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  a { color: var(--black); text-decoration-color: var(--signal); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  a:hover { background: var(--signal); }
+
+  .banner {
+    background: var(--gray-100);
+    border-bottom: 1px solid var(--gray-300);
+    font-size: 13px;
+    color: var(--gray-800);
+    text-align: center;
+    padding: 8px 16px;
+  }
+  .banner strong { color: var(--black); }
+
+  header.top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--gray-300);
+  }
+  .wordmark { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 20px; letter-spacing: -0.01em; }
+  .wordmark .mark { width: 14px; height: 14px; background: var(--signal); }
+  .wordmark .product { font-weight: 500; color: var(--gray-700); }
+  header.top nav a { font-size: 14px; margin-left: 20px; }
+
+  .hero {
+    background: var(--black);
+    color: var(--white);
+    padding: 72px 32px 64px;
+  }
+  .hero-inner { max-width: 960px; margin: 0 auto; }
+  .eyebrow { color: var(--signal); font-weight: 600; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 16px; }
+  .hero h1 {
+    font-family: "Special Gothic Expanded One", "Instrument Sans", sans-serif;
+    font-weight: 400;
+    font-size: clamp(30px, 5vw, 52px);
+    line-height: 1.08;
+    margin: 0 0 20px;
+    letter-spacing: -0.01em;
+  }
+  .hero p.lede { font-size: 19px; color: var(--gray-300); max-width: 680px; margin: 0 0 36px; }
+
+  .prompt-box { border: 1px solid var(--gray-700); background: #221F1B; max-width: 820px; }
+  .prompt-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray-500); padding: 12px 18px 0; }
+  .prompt-row { display: flex; align-items: stretch; gap: 0; }
+  .prompt-text {
+    flex: 1; padding: 12px 18px 16px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 15px; color: var(--white);
+    word-break: break-word;
+  }
+  .copy-btn {
+    background: var(--signal); color: var(--black); border: 0; cursor: pointer;
+    font: 600 14px "Instrument Sans", sans-serif; padding: 0 22px; min-width: 110px;
+  }
+  .copy-btn:hover { background: #FFC14A; }
+  .hero .clients { margin-top: 28px; font-size: 14px; color: var(--gray-500); }
+  .hero .clients span { color: var(--white); }
+
+  .facts { background: var(--gray-100); border-bottom: 1px solid var(--gray-300); }
+  .facts-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); }
+  .fact { padding: 28px 32px; border-right: 1px solid var(--gray-300); }
+  .fact:last-child { border-right: 0; }
+  .fact h3 { margin: 0 0 6px; font-size: 15px; }
+  .fact h3::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--signal); margin-right: 10px; vertical-align: middle; }
+  .fact p { margin: 0; font-size: 14px; color: var(--gray-800); }
+
+  main { max-width: 960px; margin: 0 auto; padding: 56px 32px 96px; }
+  .doc-intro { border-left: 3px solid var(--signal); padding: 4px 0 4px 18px; margin-bottom: 40px; color: var(--gray-800); font-size: 15px; }
+  .doc-intro code { font-size: 13px; }
+
+  main h1 { display: none; }
+  main h2 {
+    font-size: 28px; font-weight: 700; letter-spacing: -0.01em;
+    margin: 56px 0 16px; padding-top: 24px; border-top: 1px solid var(--gray-300);
+  }
+  main h3 { font-size: 20px; margin: 40px 0 12px; }
+  main hr { border: 0; border-top: 1px solid var(--gray-300); margin: 40px 0; }
+  main table { border-collapse: collapse; width: 100%; margin: 16px 0 24px; font-size: 15px; }
+  main th { text-align: left; background: var(--black); color: var(--white); font-weight: 600; padding: 10px 14px; }
+  main td { padding: 10px 14px; border-bottom: 1px solid var(--gray-300); vertical-align: top; }
+  main tr:nth-child(even) td { background: var(--gray-100); }
+  main code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.88em;
+    background: var(--gray-100); border: 1px solid var(--gray-300); padding: 1px 5px;
+  }
+  main pre { background: var(--black); color: var(--white); padding: 18px 20px; overflow-x: auto; position: relative; }
+  main pre code { background: none; border: 0; padding: 0; color: inherit; font-size: 14px; }
+  main ul, main ol { padding-left: 22px; }
+  main li { margin: 4px 0; }
+  main li::marker { color: var(--gray-700); }
+
+  footer { border-top: 1px solid var(--gray-300); background: var(--gray-100); padding: 28px 32px; font-size: 13px; color: var(--gray-700); }
+  footer .inner { max-width: 960px; margin: 0 auto; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+  @media (max-width: 720px) {
+    header.top nav { display: none; }
+    .facts-inner { grid-template-columns: 1fr; }
+    .fact { border-right: 0; border-bottom: 1px solid var(--gray-300); }
+    .prompt-row { flex-direction: column; }
+    .copy-btn { padding: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="banner"><strong>Unofficial example</strong> for internal DevEco review. Not Samsara documentation. Official docs: <a href="https://developers.samsara.com/docs/mcp">developers.samsara.com/docs/mcp</a></div>
+
+<header class="top">
+  <div class="wordmark"><span class="mark"></span>Samsara <span class="product">MCP</span></div>
+  <nav>
+    <a href="#step-1-find-the-users-region">Region</a>
+    <a href="#step-2-work-out-which-client-you-are-running-in">Clients</a>
+    <a href="#troubleshooting">Troubleshooting</a>
+    <a href="setup.md">Raw markdown</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Agent-guided setup</p>
+    <h1>Let your AI assistant connect you to Samsara.</h1>
+    <p class="lede">Paste this into Claude, ChatGPT, Copilot, or Cursor. Your assistant reads the instructions, handles what it can, and walks you through the rest. You only sign in with your Samsara login.</p>
+    <div class="prompt-box">
+      <div class="prompt-label">Paste into your AI assistant</div>
+      <div class="prompt-row">
+        <div class="prompt-text" id="prompt">Set up Samsara MCP for me using https://chinmay-platform-samsara.github.io/samsara-mcp-agent-setup/setup.md</div>
+        <button class="copy-btn" id="copy" type="button">Copy</button>
+      </div>
+    </div>
+    <p class="clients">Covers <span>Claude</span> · <span>Claude Code</span> · <span>ChatGPT</span> · <span>GitHub Copilot in VS Code</span> · <span>Copilot Studio</span> · <span>Cursor</span></p>
+  </div>
+</section>
+
+<section class="facts">
+  <div class="facts-inner">
+    <div class="fact"><h3>Read-only</h3><p>Your assistant can answer questions about your fleet. It can't change anything in Samsara.</p></div>
+    <div class="fact"><h3>Your permissions</h3><p>It sees exactly what you see in the Samsara dashboard, including tag scoping.</p></div>
+    <div class="fact"><h3>No API tokens</h3><p>You sign in with your normal Samsara login, including SSO. Nothing to copy or paste.</p></div>
+  </div>
+</section>
+
+<main>
+  <div class="doc-intro">The instructions below are written for your AI assistant. AI agents can also read the plain markdown version at <a href="setup.md"><code>setup.md</code></a>.</div>
+<h1 id="set-up-samsara-mcp">Set up Samsara MCP</h1>
+<p>You are an AI assistant or agent. A user has given you this page and asked you to connect them to Samsara MCP. Follow these steps in order. Keep messages to the user short, one step at a time, and wait for confirmation before moving on.</p>
+<p>Samsara MCP is a remote MCP server. It gives AI clients <strong>read-only</strong> access to the user's Samsara fleet data (vehicles, assets, drivers, safety, hours of service, inspections, routes, dispatch, fuel, locations). Access always matches the user's Samsara dashboard permissions.</p>
+<h2 id="rules">Rules</h2>
+<ul>
+<li><strong>Never ask the user for a password, API token, or secret.</strong> Samsara MCP uses OAuth. The user signs in with their normal Samsara login (including SSO) in a browser window that their client opens.</li>
+<li><strong>Do not use Samsara API tokens or put an <code>Authorization</code> header in any config.</strong> They are not needed and are not supported for this server.</li>
+<li><strong>Only use the endpoints listed on this page.</strong> Do not use <code>developers.samsara.com/mcp</code> or any other URL you may find elsewhere.</li>
+<li><strong>Do not change anything you weren't asked to change.</strong> When editing a config file, add the <code>samsara</code> entry and keep all existing entries intact.</li>
+<li>If a step requires clicking in a settings screen you cannot reach, give the user the exact clicks instead. Do not claim you finished a step that the user has to do.</li>
+</ul>
+<h2 id="step-1-find-the-users-region">Step 1: Find the user's region</h2>
+<p>Ask the user which address they use to log in to Samsara, then pick the matching endpoint. A US org cannot sign in through the EU or Canada endpoint, and the reverse is also true.</p>
+<table>
+<thead>
+<tr>
+<th>User logs in at</th>
+<th>Use this MCP endpoint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cloud.samsara.com</code></td>
+<td><code>https://mcp.samsara.com/v2/mcp</code></td>
+</tr>
+<tr>
+<td><code>cloud.eu.samsara.com</code></td>
+<td><code>https://mcp.eu.samsara.com/v2/mcp</code></td>
+</tr>
+<tr>
+<td><code>cloud.ca.samsara.com</code></td>
+<td><code>https://mcp.ca.samsara.com/v2/mcp</code></td>
+</tr>
+</tbody>
+</table>
+<p>If the user isn't sure, use the US endpoint. The rest of this page calls the chosen URL <code>&lt;SAMSARA_MCP_URL&gt;</code>.</p>
+<h2 id="step-2-work-out-which-client-you-are-running-in">Step 2: Work out which client you are running in</h2>
+<p>Find your client in the table and go to its section. If you can edit files or run commands on the user's machine, you can do most of the setup yourself. If you are a chat app in a browser or desktop app, you cannot change your own connector settings, so walk the user through the clicks.</p>
+<table>
+<thead>
+<tr>
+<th>Client</th>
+<th>Who does the setup</th>
+<th>Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude (claude.ai, Claude Desktop)</td>
+<td>User, or their Claude org owner</td>
+<td><a href="#claude-claudeai-and-claude-desktop">Claude</a></td>
+</tr>
+<tr>
+<td>Claude Code (CLI)</td>
+<td>You (the agent)</td>
+<td><a href="#claude-code">Claude Code</a></td>
+</tr>
+<tr>
+<td>ChatGPT</td>
+<td>ChatGPT workspace admin, then user</td>
+<td><a href="#chatgpt">ChatGPT</a></td>
+</tr>
+<tr>
+<td>GitHub Copilot in VS Code</td>
+<td>You (the agent)</td>
+<td><a href="#github-copilot-in-vs-code">GitHub Copilot in VS Code</a></td>
+</tr>
+<tr>
+<td>Microsoft Copilot Studio agent</td>
+<td>Agent maker</td>
+<td><a href="#microsoft-copilot-studio">Microsoft Copilot Studio</a></td>
+</tr>
+<tr>
+<td>Microsoft 365 Copilot app / Copilot desktop app</td>
+<td>Not supported yet</td>
+<td><a href="#microsoft-365-copilot-and-the-copilot-desktop-app">Microsoft 365 Copilot</a></td>
+</tr>
+<tr>
+<td>Cursor</td>
+<td>You (the agent)</td>
+<td><a href="#cursor">Cursor</a></td>
+</tr>
+<tr>
+<td>Anything else</td>
+<td>Depends on the client</td>
+<td><a href="#other-mcp-clients">Other clients</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="claude-claudeai-and-claude-desktop">Claude (claude.ai and Claude Desktop)</h3>
+<p>The user has to do this in Claude's settings. Give them these steps:</p>
+<ol>
+<li>Open <strong>Settings → Connectors</strong>.</li>
+<li>Search for <strong>Samsara MCP</strong>. If it's listed, select it and choose <strong>Connect</strong>, then go to step 5.</li>
+<li>If it's not listed, select <strong>Add custom connector</strong>.<ul>
+<li>Name: <code>Samsara MCP</code></li>
+<li>URL: <code>&lt;SAMSARA_MCP_URL&gt;</code></li>
+</ul>
+</li>
+<li>If <strong>Add custom connector</strong> isn't available, the user's Claude organization owner has to add it for the organization (same steps). After that, the user can find it under <strong>Settings → Connectors</strong>.</li>
+<li>Select <strong>Connect</strong> and sign in with Samsara in the browser window that opens.</li>
+<li>In a new chat, make sure Samsara MCP is turned on in the tools/connectors menu.</li>
+</ol>
+<p>Then go to <a href="#step-3-sign-in">Step 3</a>.</p>
+<h3 id="claude-code">Claude Code</h3>
+<p>Run:</p>
+<pre><code class="language-bash">claude mcp add --transport http samsara &lt;SAMSARA_MCP_URL&gt;
+</code></pre>
+<p>Then ask the user to run <code>/mcp</code> inside Claude Code, select <code>samsara</code>, and choose <strong>Authenticate</strong>. Use <code>--scope user</code> on the add command if the user wants Samsara available in every project.</p>
+<h3 id="chatgpt">ChatGPT</h3>
+<p>Custom MCP apps in ChatGPT are set up by a workspace admin or owner (ChatGPT Business/Enterprise). Your workspace may say <strong>Apps</strong>, <strong>Connectors</strong>, or <strong>Plugins</strong>; they refer to the same thing. Ask the user whether they are a ChatGPT workspace admin.</p>
+<p><strong>If the user is an admin</strong>, give them these steps:</p>
+<ol>
+<li>Open the ChatGPT <strong>Admin Console → Workspace settings</strong>.</li>
+<li>Under <strong>Permissions &amp; Roles</strong>, turn on <strong>Developer mode / Create custom MCP connectors</strong> for the roles that will set it up.</li>
+<li>Open <strong>Apps</strong> (or <strong>Plugins</strong>), select <strong>Add</strong>, then <strong>Add custom MCP server</strong>.</li>
+<li>Fill in:<ul>
+<li>Name: <code>Samsara MCP US</code> (or <code>EU</code> / <code>CA</code>)</li>
+<li>Description: <code>Read-only access to authorized Samsara fleet data.</code></li>
+<li>Connection: <strong>Server URL</strong>, <code>&lt;SAMSARA_MCP_URL&gt;</code></li>
+<li>Authentication: <strong>OAuth</strong></li>
+</ul>
+</li>
+<li>Create the draft, then sign in with Samsara when prompted.</li>
+<li>Review the tools it found, then publish or enable the app for the right roles. Apps are disabled by default until an admin enables them.</li>
+</ol>
+<p><strong>If the user is not an admin</strong>: tell them that a ChatGPT workspace admin has to add the app first, and offer to write a short message they can send to that admin, linking to this page. After it's published, the user opens the app, selects <strong>Connect</strong>, and signs in with their own Samsara account.</p>
+<h3 id="github-copilot-in-vs-code">GitHub Copilot in VS Code</h3>
+<p>You can do this yourself. To add it to the current workspace, create or update <code>.vscode/mcp.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;servers&quot;: {
+    &quot;samsara&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;&lt;SAMSARA_MCP_URL&gt;&quot;
+    }
+  }
+}
+</code></pre>
+<p>To add it for the user across all workspaces, run:</p>
+<pre><code class="language-bash">code --add-mcp '{&quot;name&quot;:&quot;samsara&quot;,&quot;type&quot;:&quot;http&quot;,&quot;url&quot;:&quot;&lt;SAMSARA_MCP_URL&gt;&quot;}'
+</code></pre>
+<p>Ask the user to select <strong>Start</strong> on the <code>samsara</code> server (shown above it in <code>mcp.json</code>, or under <strong>MCP: List Servers</strong>), sign in when VS Code prompts them, and then use Copilot Chat in <strong>Agent</strong> mode.</p>
+<h3 id="microsoft-copilot-studio">Microsoft Copilot Studio</h3>
+<p>The person who owns the Copilot Studio agent sets this up. Give them these steps:</p>
+<ol>
+<li>Open the agent in Copilot Studio. On the <strong>Build</strong> tab, select <strong>Tools → Add a tool</strong>.</li>
+<li>Select <strong>Add</strong>, then <strong>Model Context Protocol (MCP)</strong>.</li>
+<li>Fill in:<ul>
+<li>Server name: <code>Samsara US</code> (or <code>EU</code> / <code>CA</code>)</li>
+<li>Server description: <code>Use for questions about our Samsara fleet: vehicles, drivers, safety, hours of service, inspections, routes, fuel.</code></li>
+<li>Server URL: <code>&lt;SAMSARA_MCP_URL&gt;</code></li>
+<li>Authentication: <strong>OAuth 2.0</strong></li>
+<li>Configuration type: <strong>Dynamic (with discovery)</strong></li>
+</ul>
+</li>
+<li>Create a new connection and sign in with Samsara. If Samsara asks an administrator to <strong>Approve connector</strong>, approve it. Each user still signs in with their own account.</li>
+<li>Select the connected account, add the server to the agent, and test it in <strong>Preview</strong>.</li>
+</ol>
+<p>Power Platform data policies in the user's organization may block or limit this connection.</p>
+<h3 id="microsoft-365-copilot-and-the-copilot-desktop-app">Microsoft 365 Copilot and the Copilot desktop app</h3>
+<p>These apps can't add custom MCP servers yet. Tell the user plainly. Suggest one of these instead: a Copilot Studio agent (above), GitHub Copilot in VS Code (above), Claude, or ChatGPT.</p>
+<h3 id="cursor">Cursor</h3>
+<p>You can do this yourself. Add this to <code>~/.cursor/mcp.json</code> (all projects) or <code>.cursor/mcp.json</code> (this project). Merge it with any existing <code>mcpServers</code> and don't remove the entries that are already there.</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;samsara&quot;: {
+      &quot;url&quot;: &quot;&lt;SAMSARA_MCP_URL&gt;&quot;
+    }
+  }
+}
+</code></pre>
+<p>Cursor asks the user to sign in the first time the server is used.</p>
+<h3 id="other-mcp-clients">Other MCP clients</h3>
+<p>Any client that supports <strong>remote MCP servers over Streamable HTTP with OAuth sign-in</strong> can connect to <code>&lt;SAMSARA_MCP_URL&gt;</code> with no headers or tokens. Look up how your client adds a remote MCP server and use that method.</p>
+<p>Custom agents or harnesses that use a <strong>public (non-localhost) OAuth redirect URL</strong> need Samsara to allowlist that redirect URL. If sign-in fails with a redirect error, tell the user to send the redirect URL to their Samsara contact.</p>
+<hr />
+<h2 id="step-3-sign-in">Step 3: Sign in</h2>
+<p>When the client opens a browser window:</p>
+<ol>
+<li>The user signs in with their Samsara login (SSO works).</li>
+<li>If the user belongs to more than one Samsara organization, the consent screen lists them. <strong>Each connection is scoped to one organization</strong>, so they should choose the one they want the assistant to use. To use a different organization, they disconnect and connect again.</li>
+<li>The user approves access and returns to the client.</li>
+</ol>
+<h2 id="step-4-check-that-it-works">Step 4: Check that it works</h2>
+<p>Make one read-only call to confirm the connection, such as asking for a count of vehicles or drivers. Then tell the user:</p>
+<ul>
+<li>They're connected to Samsara MCP for the organization they chose, in their region.</li>
+<li>It is read-only. It can answer questions but can't change anything in Samsara.</li>
+<li>It sees only what the user can see in the Samsara dashboard.</li>
+<li>A few things to try: "Which drivers have hours of service remaining right now?", "List yesterday's inspection reports with unresolved defects.", "Which trucks are below a quarter tank of fuel?"</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sign-in fails or says the account isn't found</td>
+<td>The region is probably wrong. Check which address the user logs in at and use the matching endpoint.</td>
+</tr>
+<tr>
+<td>Connected, but results are missing or empty</td>
+<td>Access matches dashboard permissions and tag scope. Confirm the user can see that data in the dashboard and that they chose the right organization when signing in.</td>
+</tr>
+<tr>
+<td>Tools stop working after a while</td>
+<td>Reconnect and sign in again. Sessions expire after a period of inactivity.</td>
+</tr>
+<tr>
+<td>Tools are missing or out of date</td>
+<td>Reconnect or refresh the server so the client fetches the current tool list.</td>
+</tr>
+<tr>
+<td>Redirect URL error (custom harness)</td>
+<td>Samsara needs to allowlist the harness's redirect URL. Contact the user's Samsara account team.</td>
+</tr>
+<tr>
+<td>Anything else</td>
+<td>Ask the user to share the full conversation transcript (prompts and tool calls) with their Samsara contact or in a support ticket.</td>
+</tr>
+</tbody>
+</table>
+<p>Full human documentation: https://developers.samsara.com/docs/mcp</p>
+</main>
+
+<footer>
+  <div class="inner">
+    <span>Unofficial example · Last updated 2026-10-29</span>
+    <span>Official docs: <a href="https://developers.samsara.com/docs/mcp">developers.samsara.com/docs/mcp</a></span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("copy").addEventListener("click", async (e) => {
+    await navigator.clipboard.writeText(document.getElementById("prompt").textContent.trim());
+    e.target.textContent = "Copied";
+    setTimeout(() => { e.target.textContent = "Copy"; }, 1600);
+  });
+</script>
+</body>
+</html>
