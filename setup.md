@@ -30,7 +30,7 @@ Ask the user which address they use to log in to Samsara, then pick the matching
 | `cloud.eu.samsara.com` | `https://mcp.eu.samsara.com/v2/mcp` |
 | `cloud.ca.samsara.com` | `https://mcp.ca.samsara.com/v2/mcp` |
 
-If the user isn't sure, use the US endpoint. The rest of this page calls the chosen URL `<SAMSARA_MCP_URL>`.
+If the user isn't sure, use the US endpoint. The rest of this page calls the chosen URL `{SAMSARA_MCP_URL}`.
 
 ## Step 2: Work out which client you are running in
 
@@ -55,9 +55,7 @@ The user has to do this in Claude's settings. Give them these steps:
 
 1. Open **Settings → Connectors**.
 2. Search for **Samsara MCP**. If it's listed, select it and choose **Connect**, then go to step 5.
-3. If it's not listed, select **Add custom connector**.
-    - Name: `Samsara MCP`
-    - URL: `<SAMSARA_MCP_URL>`
+3. If it's not listed, select **Add custom connector**, enter the name `Samsara MCP` and the URL `{SAMSARA_MCP_URL}`, and save.
 4. If **Add custom connector** isn't available, the user's Claude organization owner has to add it for the organization (same steps). After that, the user can find it under **Settings → Connectors**.
 5. Select **Connect** and sign in with Samsara in the browser window that opens.
 6. In a new chat, make sure Samsara MCP is turned on in the tools/connectors menu.
@@ -69,7 +67,7 @@ Then go to [Step 3](#step-3-sign-in).
 Run:
 
 ```bash
-claude mcp add --transport http samsara <SAMSARA_MCP_URL>
+claude mcp add --transport http samsara {SAMSARA_MCP_URL}
 ```
 
 Then ask the user to run `/mcp` inside Claude Code, select `samsara`, and choose **Authenticate**. Use `--scope user` on the add command if the user wants Samsara available in every project.
@@ -83,11 +81,7 @@ Custom MCP apps in ChatGPT are set up by a workspace admin or owner (ChatGPT Bus
 1. Open the ChatGPT **Admin Console → Workspace settings**.
 2. Under **Permissions & Roles**, turn on **Developer mode / Create custom MCP connectors** for the roles that will set it up.
 3. Open **Apps** (or **Plugins**), select **Add**, then **Add custom MCP server**.
-4. Fill in:
-    - Name: `Samsara MCP US` (or `EU` / `CA`)
-    - Description: `Read-only access to authorized Samsara fleet data.`
-    - Connection: **Server URL**, `<SAMSARA_MCP_URL>`
-    - Authentication: **OAuth**
+4. Set the name to `Samsara MCP US` (or `EU` / `CA`), the description to `Read-only access to authorized Samsara fleet data.`, the connection to **Server URL** with `{SAMSARA_MCP_URL}`, and authentication to **OAuth**.
 5. Create the draft, then sign in with Samsara when prompted.
 6. Review the tools it found, then publish or enable the app for the right roles. Apps are disabled by default until an admin enables them.
 
@@ -102,7 +96,7 @@ You can do this yourself. To add it to the current workspace, create or update `
   "servers": {
     "samsara": {
       "type": "http",
-      "url": "<SAMSARA_MCP_URL>"
+      "url": "{SAMSARA_MCP_URL}"
     }
   }
 }
@@ -111,7 +105,7 @@ You can do this yourself. To add it to the current workspace, create or update `
 To add it for the user across all workspaces, run:
 
 ```bash
-code --add-mcp '{"name":"samsara","type":"http","url":"<SAMSARA_MCP_URL>"}'
+code --add-mcp '{"name":"samsara","type":"http","url":"{SAMSARA_MCP_URL}"}'
 ```
 
 Ask the user to select **Start** on the `samsara` server (shown above it in `mcp.json`, or under **MCP: List Servers**), sign in when VS Code prompts them, and then use Copilot Chat in **Agent** mode.
@@ -122,12 +116,7 @@ The person who owns the Copilot Studio agent sets this up. Give them these steps
 
 1. Open the agent in Copilot Studio. On the **Build** tab, select **Tools → Add a tool**.
 2. Select **Add**, then **Model Context Protocol (MCP)**.
-3. Fill in:
-    - Server name: `Samsara US` (or `EU` / `CA`)
-    - Server description: `Use for questions about our Samsara fleet: vehicles, drivers, safety, hours of service, inspections, routes, fuel.`
-    - Server URL: `<SAMSARA_MCP_URL>`
-    - Authentication: **OAuth 2.0**
-    - Configuration type: **Dynamic (with discovery)**
+3. Set the server name to `Samsara US` (or `EU` / `CA`), the server description to `Use for questions about our Samsara fleet: vehicles, drivers, safety, hours of service, inspections, routes, fuel.`, the server URL to `{SAMSARA_MCP_URL}`, authentication to **OAuth 2.0**, and configuration type to **Dynamic (with discovery)**.
 4. Create a new connection and sign in with Samsara. If Samsara asks an administrator to **Approve connector**, approve it. Each user still signs in with their own account.
 5. Select the connected account, add the server to the agent, and test it in **Preview**.
 
@@ -145,7 +134,7 @@ You can do this yourself. Add this to `~/.cursor/mcp.json` (all projects) or `.c
 {
   "mcpServers": {
     "samsara": {
-      "url": "<SAMSARA_MCP_URL>"
+      "url": "{SAMSARA_MCP_URL}"
     }
   }
 }
@@ -155,7 +144,7 @@ Cursor asks the user to sign in the first time the server is used.
 
 ### Other MCP clients
 
-Any client that supports **remote MCP servers over Streamable HTTP with OAuth sign-in** can connect to `<SAMSARA_MCP_URL>` with no headers or tokens. Look up how your client adds a remote MCP server and use that method.
+Any client that supports **remote MCP servers over Streamable HTTP with OAuth sign-in** can connect to `{SAMSARA_MCP_URL}` with no headers or tokens. Look up how your client adds a remote MCP server and use that method.
 
 Custom agents or harnesses that use a **public (non-localhost) OAuth redirect URL** need Samsara to allowlist that redirect URL. If sign-in fails with a redirect error, tell the user to send the redirect URL to their Samsara contact.
 
