@@ -152,11 +152,25 @@ Custom agents or harnesses that use a **public (non-localhost) OAuth redirect UR
 
 ## Step 3: Sign in
 
-When the client opens a browser window:
+Sign-in never starts on its own, and you cannot do it for the user. Tell the user exactly what to click in their client, using the table below. Don't say "you'll be prompted" or "a window will open" without first telling them what to click.
+
+| Client | Tell the user to |
+| --- | --- |
+| Claude (claude.ai, Claude Desktop) | Open **Settings → Connectors**, find **Samsara MCP**, and click **Connect**. |
+| Claude Code | Type `/mcp` in Claude Code, select `samsara`, and choose **Authenticate**. |
+| ChatGPT | Open the Samsara app from **Apps** (or **Plugins**) and click **Connect**. Admins also sign in once while creating the app. |
+| GitHub Copilot in VS Code | Open `mcp.json` and click **Start** above the `samsara` entry (or run **MCP: List Servers**, pick `samsara`, and choose **Start Server**). When VS Code asks to allow sign-in, click **Allow**. |
+| Microsoft Copilot Studio | In the tool setup, choose **Create new connection** and click **Create** to open the Samsara sign-in. |
+| Cursor | Open **Cursor Settings → MCP** (or **Tools & MCP**). If `samsara` shows **Needs login** or a **Connect** button, click it. Otherwise, start a new chat and ask a Samsara question, then approve the sign-in when Cursor asks. |
+| Other clients | Find the client's MCP server list and click the connect, authenticate, or log in option for `samsara`. |
+
+Then, in the browser window that opens:
 
 1. The user signs in with their Samsara login (SSO works).
 2. If the user belongs to more than one Samsara organization, the consent screen lists them. **Each connection is scoped to one organization**, so they should choose the one they want the assistant to use. To use a different organization, they disconnect and connect again.
 3. The user approves access and returns to the client.
+
+Ask the user to tell you when they've finished signing in, then go to Step 4. If no browser window opened after they clicked, ask them to check for a blocked pop-up or a tab that opened behind the current window.
 
 ## Step 4: Check that it works
 

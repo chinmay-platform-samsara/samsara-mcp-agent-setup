@@ -333,12 +333,52 @@
 <p>Custom agents or harnesses that use a <strong>public (non-localhost) OAuth redirect URL</strong> need Samsara to allowlist that redirect URL. If sign-in fails with a redirect error, tell the user to send the redirect URL to their Samsara contact.</p>
 <hr />
 <h2 id="step-3-sign-in">Step 3: Sign in</h2>
-<p>When the client opens a browser window:</p>
+<p>Sign-in never starts on its own, and you cannot do it for the user. Tell the user exactly what to click in their client, using the table below. Don't say "you'll be prompted" or "a window will open" without first telling them what to click.</p>
+<table>
+<thead>
+<tr>
+<th>Client</th>
+<th>Tell the user to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude (claude.ai, Claude Desktop)</td>
+<td>Open <strong>Settings → Connectors</strong>, find <strong>Samsara MCP</strong>, and click <strong>Connect</strong>.</td>
+</tr>
+<tr>
+<td>Claude Code</td>
+<td>Type <code>/mcp</code> in Claude Code, select <code>samsara</code>, and choose <strong>Authenticate</strong>.</td>
+</tr>
+<tr>
+<td>ChatGPT</td>
+<td>Open the Samsara app from <strong>Apps</strong> (or <strong>Plugins</strong>) and click <strong>Connect</strong>. Admins also sign in once while creating the app.</td>
+</tr>
+<tr>
+<td>GitHub Copilot in VS Code</td>
+<td>Open <code>mcp.json</code> and click <strong>Start</strong> above the <code>samsara</code> entry (or run <strong>MCP: List Servers</strong>, pick <code>samsara</code>, and choose <strong>Start Server</strong>). When VS Code asks to allow sign-in, click <strong>Allow</strong>.</td>
+</tr>
+<tr>
+<td>Microsoft Copilot Studio</td>
+<td>In the tool setup, choose <strong>Create new connection</strong> and click <strong>Create</strong> to open the Samsara sign-in.</td>
+</tr>
+<tr>
+<td>Cursor</td>
+<td>Open <strong>Cursor Settings → MCP</strong> (or <strong>Tools &amp; MCP</strong>). If <code>samsara</code> shows <strong>Needs login</strong> or a <strong>Connect</strong> button, click it. Otherwise, start a new chat and ask a Samsara question, then approve the sign-in when Cursor asks.</td>
+</tr>
+<tr>
+<td>Other clients</td>
+<td>Find the client's MCP server list and click the connect, authenticate, or log in option for <code>samsara</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Then, in the browser window that opens:</p>
 <ol>
 <li>The user signs in with their Samsara login (SSO works).</li>
 <li>If the user belongs to more than one Samsara organization, the consent screen lists them. <strong>Each connection is scoped to one organization</strong>, so they should choose the one they want the assistant to use. To use a different organization, they disconnect and connect again.</li>
 <li>The user approves access and returns to the client.</li>
 </ol>
+<p>Ask the user to tell you when they've finished signing in, then go to Step 4. If no browser window opened after they clicked, ask them to check for a blocked pop-up or a tab that opened behind the current window.</p>
 <h2 id="step-4-check-that-it-works">Step 4: Check that it works</h2>
 <p>Make one read-only call to confirm the connection, such as asking for a count of vehicles or drivers. Then tell the user:</p>
 <ul>
